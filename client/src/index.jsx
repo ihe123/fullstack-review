@@ -8,14 +8,27 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
+      //need to somehow push all the repo objects into this array of repos..
       repos: []
+
     }
 
   }
 
-  search (term) {
+  search(term) {
+    //note to self: make sure to put http:// in front of the url
+    //in the frontend side we make the ajax call-- specific to jquery
     console.log(`${term} was searched`);
-    // TODO
+    $.ajax({
+      type: "POST",
+      url: 'http://127.0.0.1:1128/repos/import',
+      data: {'data':term},
+      success: (data) => {
+       this.setState({repos: data});
+      },
+      dataType: 'json'
+    });
+    
   }
 
   render () {
