@@ -1,22 +1,18 @@
 var mongoose = require('mongoose');
+var uniqueValidator = require('mongoose-unique-validator');
+//suppose to create a fetcher database and connect to it
 mongoose.connect('mongodb://localhost/fetcher');
+mongoose.Promise = global.Promise;
 
 var repoSchema = mongoose.Schema({
-  // Server: String,
-  // Date: Date,
-  // Content-Type: String,
-  // Connection: String,
-  // Status: Mixed, //not sure about this one
-  // ETag: String,
-  // X-GitHub-Media-Type: String,
-  // X-RateLimit-Remaining: Number,
-  // X-RateLimit-Reset: Number,
-  // Content-Length: Number,
-  // Cache-Control: 
-  // X-Content-Type-Options: String
-  // TODO: your schema here!
+    GithubRepo_Id: { type: Number, unique: true, dropDups: true },
+    Login: String,
+    Name: String,
+    Url: String,
+    Description: String
 });
 
-var Repo = mongoose.model('Repo', repoSchema);
+repoSchema.plugin(uniqueValidator);
 
+var Repo = mongoose.model('Repo', repoSchema);
 module.exports = Repo;
